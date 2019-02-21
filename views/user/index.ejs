@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Huisgenoten</title>
+
+        <% include ../partials/head %>
+
+        <script src="/js/clickable-row.js"></script>
+    </head>
+    <body>
+        <% include ../partials/nav %>        
+
+        <table class="table">
+            <tr>
+                <th>Echte Naam</th>
+                <th>Huis Naam</th>
+                <th>Verhuisd</th>
+                <th>Admin</th>
+            </tr>
+        <% for(let i = 0; i < users.length; i++) { %>
+            <tr class='clickable-row' data-href='/user/<%=users[i].id%>'>
+                <td><%= users[i].real_name %>%></td>
+                <td><%= users[i].house_name %>%></td>
+                <td><%= users[i].moved_out%></td>
+                <td><%= users[i].admin %></td>
+            </tr>
+        <% } %>
+        </table>
+    </body>
+</html>

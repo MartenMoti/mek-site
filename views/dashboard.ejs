@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Dashboard</title>
+    <% include partials/head %>
+</head>
+
+<body>
+    <% include partials/nav %>
+    <% 
+    function capitalize(string) {
+        if (string == 'marie-claire') {
+            return 'Marie-Claire';
+        } else {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+        // CREDITS TO GIJS
+        // let hyphenIndex = string.indexOf('-');
+        // if (hyphenIndex != -1) {
+        //     let lowerCase = string.charAt(hyphenIndex + 1);
+        //     string = string.substr(0, hyphenIndex + 1) + lowerCase.toUpperCase() + string.substr(hyphenIndex + 2, string.length);
+        // }
+        // return string.charAt(0).toUpperCase() + string.slice(1);
+    } 
+    %>
+
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4">
+            <h2 class='centered-text'>Dashboard
+                <%= capitalize(user.house_name) %>
+            </h2>
+            <div class='balance centered-text'>Balans: <span id='balance-field'>€50,10</span></div>
+            <div class='centered-text'>Geinvesteerd door jou: <span id='invested-by-you-field'>€50,10</span></div>
+            <div class='centered-text'>Gecorrigeerd door jou: <span id='corrected-by-you-field'>€50,10</span></div>
+            <div class='centered-text'>Geinvesteerd op jou: <span id='invested-on-you-field'>€50,10</span></div>
+            <div class='centered-text'>Gecorrigeerd op jou: <span id='corrected-on-you-field'>€50,10</span></div>
+        </div>
+        <div class="col-4"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-3 investment-container">
+            <h4>Investeer</h4>
+            <form action="/investment/" method="post">
+                <div>
+                    <label>Omschrijving:</label>
+                    <input type="text" name="description" />
+                </div>
+                <div>
+                    <label>Hoeveelheid:</label>
+                    <input type="text" name="amount" />
+                </div>
+                <div>
+                    <input type="submit" value="Investeer" />
+                </div>
+            </form>
+        </div>
+        <div class="col-3 correction-container">
+            <h4>Corrigeer</h4>
+            <form action="/correction/" method="post">
+                <div>
+                    <label>Omschrijving:</label>
+                    <input type="text" name="description" />
+                </div>
+                <div>
+                    <label>Hoeveelheid (totaal):</label>
+                    <input type="text" name="amount" />
+                </div>
+                <div>
+                    <label>Personen:</label><br>
+                    <% for(let i = 0; i < roommates.length; i++) {%>
+                        <input type="checkbox" name="roommate" value='<%= roommates[i].id %>'>
+                        <%= capitalize(roommates[i].house_name) %><br>
+                    <% } %>
+                </div>
+                <div>
+                    <input type="submit" value="Corrigeer" />
+                </div>
+            </form>
+        </div>
+        <div class="col-3"></div>
+    </div>
+
+    <div class="row">
+            <div class="col-6">
+                <table class="table">
+                    <th>Datum</th>
+                    <th>Investeerder</th>
+                    <th>Bedrag</th>
+                    <th>Beschrijving</th>
+                    <% for(let i = 0; i < investments.length; i++) { %>
+                        <tr>
+                            <td><%= investments[i].date.getDate() %>/<%= investments[i].date.getMonth() %>/<%= investments[i].date.getFullYear() %></td>
+                            <td><%= capitalize(names[investments[i].investor_id]) %></td>
+                            <td><%= investments[i].amount %></td>
+                            <td><%= investments[i].description %></td>
+                        </tr>
+                    <% } %>
+                </table>
+            </div>
+            <div class="col-3"></div>
+            <div class="col-3"></div>
+        </div>
+</body>
+
+</html>

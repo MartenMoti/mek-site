@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Investeringen</title>
+        <% include ../partials/head %>
+    </head>
+    <body>
+        <% include ../partials/nav %>
+
+        <table class="table">
+        <% for(let i = 0; i < investments.length; i++) { %>        
+            <tr>
+                <td><a href='/investment/<%=investments[i].id%>'>Link</a>
+                <td><%=names[investments[i].investor_id]%></td>
+                <td><%=investments[i].description%></td>
+                <td><%=investments[i].amount%></td>
+                <td><%=investments[i].processed%></td>
+            <tr>
+        <% } %>
+        <table>
+    </body>
+</html>

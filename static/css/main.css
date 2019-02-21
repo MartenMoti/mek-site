@@ -1,0 +1,19 @@
+.clickable-row {
+    cursor: pointer;
+}
+
+.clickable-row:hover {
+    background-color: #CCC;
+}
+
+.centered-text {
+    text-align: center;
+}
+
+.investment-container {
+    text-align: left;
+}
+
+.correction-container {
+    text-align: right;
+}

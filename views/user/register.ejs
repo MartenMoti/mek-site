@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Register</title>
+    <% include ../partials/head %>
+</head>
+
+<body>
+    <% include ../partials/nav %>
+
+    <div clas="container">
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <h1>Registreer een nieuw feutje</h1>
+
+                <form action="/user/register" method="post">
+                    <div>
+                        <label>Echte naam:</label>
+                        <input type="text" name="real_name" />
+                    </div>
+                    <div>
+                        <label>Tijdelijk wachtwoord:</label>
+                        <input type="password" name="password" />
+                    </div>
+                    <div>
+                        <input type="submit" value="Registreer" />
+                    </div>
+                </form>
+            </div>
+            <div class="col-4"></div>
+        </div>
+    </div>
+</body>
+
+</html>

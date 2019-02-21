@@ -1,0 +1,20 @@
+{
+  "name": "mek",
+  "version": "1.0.0",
+  "description": "Mek website",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Marten Voorberg",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "crypto": "^1.0.1",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "mongoose": "^5.4.13",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0"
+  }
+}

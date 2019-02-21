@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Huisgenoot <%= user.house_name %></title>
+
+        <% include ../partials/head %>
+    </head>
+    <body>
+        <% include ../partials/nav %>
+
+        <form action='/user/<%=user.id%>/set_name' method='post'>
+            <label for="house_name">Huisnaam: </label>
+            <input type="text" name='house_name' value='<%=user.house_name%>'>
+            <input type="submit" value="Update Huisnaam"/>
+        </form>
+
+        <form action='/user/<%=user.id%>/set_password' method='post'>
+            <label for="house_name">Wachtwoord: </label>
+            <input type="password" name='password' value='filler'>
+            <input type="submit" value="Update Wachtwoord"/>
+        </form>
+
+        <% if (user.admin) { %>
+            <form action='/user/<%=user.id%>/set_not_admin' method='post'>
+                <input type="submit" value="Verwijder als Admin" />
+            </form>
+        <% }  else { %>
+            <form action='/user/<%=user.id%>/set_admin' method='post'>
+                <input type="submit" value="Voeg toe als Admin" />
+            </form>
+        <% } %>
+
+        <% if (user.moved_out) { %>
+            <form action='/user/<%=user.id%>/set_not_moved_out' method='post'>
+                <input type="submit" value="Update als niet verhuisd" />
+            </form>
+        <% }  else { %>
+            <form action='/user/<%=user.id%>/set_moved_out' method='post'>
+                <input type="submit" value="Update als verhuisd" />
+            </form>
+        <% } %>
+    </body>
+</html>

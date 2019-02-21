@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Details Investment</title>
+
+        <% include ../partials/head %>
+    </head>
+    <body>
+        <% include ../partials/nav %>
+
+        <h1>Investment by <%= user_house_name %></h1><br>
+
+        <form action="/correction/<%=correction.id%>/update" method="post">
+            <div>
+                <label>Beschrijving:</label>
+                <input type="text" name="description" value="<%=correction.description%>"/>
+            </div>
+            <div>
+                <label>Amount:</label>
+                <input type="text" name="amount" value="<%=correction.amount%>"/>
+            </div>
+            <div>
+                <input type="submit" value="Update" />
+            </div>
+        </form>
+
+        <form action='/correction/<%=correction.id%>/delete' method='post'>
+            <input type="submit" value="Delete">
+        </form>
+    </body>
+</html>
