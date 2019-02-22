@@ -8,7 +8,7 @@ jQuery(document).ready(function($) {
         
         if (value > 0) {
             elem.classList.add('color-green');
-        } else {
+        } else if (value < 0) {
             elem.classList.add('color-red');
         }
     }

@@ -224,3 +224,8 @@ exports.set_password = (req, res) => {
         })
     });
 }
+
+exports.logout = (req, res) => {
+    req.logout();
+    res.redirect('/user/login');
+}

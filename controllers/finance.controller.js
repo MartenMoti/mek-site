@@ -111,6 +111,16 @@ exports.set_financial_information = (req, res, next) => {
         );
     }
 
+    for(let i = 0; i < req.all_housemates.length; i++) {
+        let id = req.all_housemates[i].id;
+
+        financial_information[id].balance = Math.round(financial_information[id].balance * 100) / 100;
+        financial_information[id].invested_by = Math.round(financial_information[id].invested_by * 100) / 100;
+        financial_information[id].invested_on = Math.round(financial_information[id].invested_on * 100) / 100;
+        financial_information[id].corrected_on = Math.round(financial_information[id].corrected_on * 100) / 100;
+        financial_information[id].corrected_by = Math.round(financial_information[id].corrected_by * 100) / 100;     
+    }
+
     req.financial_information = financial_information;
     next();
 }

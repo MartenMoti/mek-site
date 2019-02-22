@@ -7,6 +7,7 @@ router.post('/register', controller.register_post);
 
 router.get('/login', controller.login_get);
 router.post('/login', controller.login_post);
+router.get('/logout', controller.logout);
 
 router.get('/', controller.show_all);
 router.get('/:id', controller.show_one);
