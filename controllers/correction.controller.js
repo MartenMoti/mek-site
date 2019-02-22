@@ -41,3 +41,66 @@ exports.show_all = (req, res) => {
         });
     });
 }
+
+exports.show_one = (req, res) => {
+    if (!req.isAuthenticated()) {
+        res.redirect('/user/login');
+        return;
+    }
+
+    Correction.findById(req.params.id, (err, correction) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+
+        res.render('../views/correction/details.ejs', {
+            correction: correction,
+            id_to_name: req.names,
+            roommates: req.roommates
+        });
+    });
+}
+
+exports.update = (req, res) => {
+    if (!req.isAuthenticated()) {
+        res.redirect('/user/login');
+        return;
+    }
+
+    Correction.findById(req.params.id, (err, correction) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+
+        correction.amount = req.body.amount;
+        correction.description = req.body.description;
+        correction.corrected_ids = req.body.roommate;
+
+        correction.save((err) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+
+            res.redirect('/correction/');
+        });
+    });
+}
+
+exports.delete = (req, res) => {
+    if (!req.isAuthenticated()) {
+        res.redirect('/user/login');
+        return;
+    }
+
+    Correction.findByIdAndDelete(req.params.id, (err) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+
+        res.redirect('/correction/');
+    });    
+}

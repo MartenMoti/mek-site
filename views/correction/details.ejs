@@ -8,7 +8,7 @@
     <body>
         <% include ../partials/nav %>
 
-        <h1>Investment by <%= user_house_name %></h1><br>
+        <h1>Correction by <%= id_to_name[correction.corrector_id] %></h1><br>
 
         <form action="/correction/<%=correction.id%>/update" method="post">
             <div>
@@ -19,6 +19,20 @@
                 <label>Amount:</label>
                 <input type="text" name="amount" value="<%=correction.amount%>"/>
             </div>
+            <div>
+                <label>Personen:</label><br>
+                <% for(let i = 0; i < roommates.length; i++) {%>
+                    <% 
+                        var result = false;
+                        for (let j = 0; j < correction.corrected_ids.length; j++) {
+                            if (roommates[i].id == correction.corrected_ids[j]) {
+                                result = true;
+                            }
+                        }
+                    %>
+                    <input type="checkbox" name="roommate" value='<%= roommates[i].id %>' <% if(result) { %> checked <% } %>>
+                    <%= roommates[i].house_name %><br>
+                <% } %>
             <div>
                 <input type="submit" value="Update" />
             </div>
