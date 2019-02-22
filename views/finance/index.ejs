@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Financieel Overzicht</title>
+
+        <% include ../partials/head %>
+
+        <script src="/js/color-conditional.js"></script>
+    </head>
+    <body>
+        <% include ../partials/nav %>
+
+        <table class="table">
+            <tr>
+                <th>Naam</th>
+                <th>Balans</th>
+                <th>Geinvesteerd door</th>
+                <th>Geinvesteerd op</th>
+                <th>Gecorrigeerd door</th>
+                <th>Gecorrigeerd op</th>
+            </tr>
+            <% for(let i = 0; i < all_housemates.length; i++) { %>
+                <tr>
+                    <td><%= all_housemates[i].house_name %></td>
+                    <td class="color-conditional">€<%= financial_information[all_housemates[i].id].balance %></td>
+                    <td>€<%= financial_information[all_housemates[i].id].invested_by %></td>
+                    <td>€<%= financial_information[all_housemates[i].id].invested_on %></td>
+                    <td>€<%= financial_information[all_housemates[i].id].corrected_by %></td>
+                    <td>€<%= financial_information[all_housemates[i].id].corrected_on %></td>
+                </tr>
+            <% } %>
+        </table>
+    </body>
+</html>

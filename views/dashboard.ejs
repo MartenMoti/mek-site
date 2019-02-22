@@ -4,6 +4,8 @@
 <head>
     <title>Dashboard</title>
     <% include partials/head %>
+    <script src="/js/clickable-row.js"></script>
+    <script src="/js/color-conditional.js"></script>
 </head>
 
 <body>
@@ -31,11 +33,11 @@
             <h2 class='centered-text'>Dashboard
                 <%= capitalize(user.house_name) %>
             </h2>
-            <div class='balance centered-text'>Balans: <span id='balance-field'>€50,10</span></div>
-            <div class='centered-text'>Geinvesteerd door jou: <span id='invested-by-you-field'>€50,10</span></div>
-            <div class='centered-text'>Gecorrigeerd door jou: <span id='corrected-by-you-field'>€50,10</span></div>
-            <div class='centered-text'>Geinvesteerd op jou: <span id='invested-on-you-field'>€50,10</span></div>
-            <div class='centered-text'>Gecorrigeerd op jou: <span id='corrected-on-you-field'>€50,10</span></div>
+            <div class='balance centered-text'>Balans: <span class='color-conditional' id='balance-field'>€<%= financial_information[user.id].balance %></span></div>
+            <div class='centered-text'>Geinvesteerd door jou: <span id='invested-by-you-field'>€ <%= financial_information[user.id].invested_by %></span></div>
+            <div class='centered-text'>Gecorrigeerd door jou: <span id='corrected-by-you-field'>€<%= financial_information[user.id].corrected_by %></span></div>
+            <div class='centered-text'>Geinvesteerd op jou: <span id='invested-on-you-field'>€<%= financial_information[user.id].invested_on %></span></div>
+            <div class='centered-text'>Gecorrigeerd op jou: <span id='corrected-on-you-field'>€<%= financial_information[user.id].corrected_on %></span></div>
         </div>
         <div class="col-4"></div>
     </div>
@@ -92,7 +94,7 @@
                     <th>Bedrag</th>
                     <th>Beschrijving</th>
                     <% for(let i = 0; i < investments.length; i++) { %>
-                        <tr>
+                        <tr class="clickable-row" data-href="/investment/<%=investments[i].id%>">
                             <td><%= investments[i].date.getDate() %>/<%= investments[i].date.getMonth() %>/<%= investments[i].date.getFullYear() %></td>
                             <td><%= capitalize(names[investments[i].investor_id]) %></td>
                             <td><%= investments[i].amount %></td>
@@ -101,8 +103,22 @@
                     <% } %>
                 </table>
             </div>
-            <div class="col-3"></div>
-            <div class="col-3"></div>
+            <div class="col-6">
+                <table class="table">
+                <th>Datum</th>
+                <th>Corrigeerder</th>
+                <th>Bedrag per persoon</th>
+                <th>Beschrijving</th>
+                <% for(let i = 0; i < corrections.length; i++) { %>
+                    <tr class="clickable-row" data-href="/correction/<%=corrections[i].id%>">
+                        <td><%= corrections[i].date.getDate() %>/<%= corrections[i].date.getMonth() %>/<%= corrections[i].date.getFullYear() %></td>
+                        <td><%= capitalize(names[corrections[i].corrector_id]) %></td>
+                        <td><%= corrections[i].amount / corrections[i].corrected_ids.length %></td>
+                        <td><%= corrections[i].description %></td>
+                    </tr>
+                <% } %>
+                </table>
+            </div>
         </div>
 </body>
 

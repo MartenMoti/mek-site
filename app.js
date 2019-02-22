@@ -85,11 +85,14 @@ const userRoute = require('./routes/user.route');
 const indexRoute = require('./routes/index.route');
 const investmentRoute = require('./routes/investment.route');
 const correctionRoute = require('./routes/correction.route');
+const financeRoute = require('./routes/finance.route');
+
 
 app.use('/user', userRoute);
 app.use('/', indexRoute);
 app.use('/investment', investmentRoute);
 app.use('/correction', correctionRoute);
+app.use('/finance', financeRoute);
 
 // EJS
 app.set('view engine', 'ejs');

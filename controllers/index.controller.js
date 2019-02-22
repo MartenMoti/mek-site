@@ -1,5 +1,6 @@
 const User = require('../models/user.model');
 const Investment = require('../models/investment.model');
+const Correction = require('../models/correction.model');
 
 exports.handle_index = (req, res) => {
     if (req.user) {
@@ -37,7 +38,9 @@ exports.handle_dashboard = (req, res) => {
         user: req.userObject,
         roommates: req.roommates,
         names: req.names,
-        investments: req.investments
+        investments: req.investments,
+        corrections: req.corrections,
+        financial_information: req.financial_information
     });
 };
 
@@ -54,6 +57,44 @@ exports.set_investments = (req, res, next) => {
         }
 
         req.investments = investments;
+        next();
+    });
+}
+
+exports.set_corrections = (req, res, next) => {
+    if (!req.isAuthenticated()) {
+        res.redirect('/user/login');
+        return;
+    }
+
+    Correction.find({processed: false}).sort({'date': -1}).limit(10).exec((err, corrections) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+
+        // A correction is relevant if it was made by you or if it was made on you
+        relevant_corrections = [];
+
+        for (let i = 0; i < corrections.length; i++) {
+            var relevant = false;;
+
+            for (let j = 0; j < corrections[i].corrected_ids.length; j++) {
+                if (corrections[i].corrected_ids[j] == req.user) {
+                    relevant = true;
+                }
+            }
+
+            if (corrections[i].corrector_id == req.user) {
+                relevant = true;
+            }
+
+            if (relevant) {
+                relevant_corrections.push(corrections[i]);
+            }
+        }
+
+        req.corrections = relevant_corrections;
         next();
     });
 }
