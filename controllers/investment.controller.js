@@ -57,7 +57,7 @@ exports.show_all = (req, res) => {
         return;
     }
 
-    Investment.find({}, (err, investments) => {
+    Investment.find({}).sort({'date': -1}).exec((err, investments) => {
         if (err) {
             console.log(err);
             return;
@@ -67,7 +67,7 @@ exports.show_all = (req, res) => {
             investments: investments,
             names: req.names
         });
-    })
+    });
 }
 
 exports.set_investment = (req, res, next) => {

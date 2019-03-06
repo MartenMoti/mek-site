@@ -35,7 +35,7 @@ exports.show_all = (req, res) => {
         return;
     }
 
-    Correction.find({}, (err, corrections) => {
+    Correction.find({}).sort({'date': -1}).exec((err, corrections) => {
         if (err) {
             console.log(err);
             return;
