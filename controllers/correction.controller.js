@@ -1,6 +1,12 @@
 const Correction = require('../models/correction.model');
 
 exports.create_correction = (req, res) => {
+    let amount = req.body.amount.replace(',', '.');
+    if (isNaN(amount)) {
+        res.send('Wat kun je wel? Kun je niet eens een getal intypen? Of ben je zo\'n persoon die het verschil tussen een omschrijving en bedrag niet weet?');
+        return;
+    }
+
     if (!req.isAuthenticated()) {
         res.redirect('/user/login');
         return;
@@ -8,7 +14,7 @@ exports.create_correction = (req, res) => {
 
     let correction = new Correction({
         description: req.body.description,
-        amount: req.body.amount,
+        amount: amount,
         corrector_id: req.user,
         corrected_ids: req.body.roommate
     });
@@ -63,6 +69,12 @@ exports.show_one = (req, res) => {
 }
 
 exports.update = (req, res) => {
+    let amount = req.body.amount.replace(',', '.');
+    if (isNaN(amount)) {
+        res.send('Wat kun je wel? Kun je niet eens een getal intypen? Of ben je zo\'n persoon die het verschil tussen een omschrijving en bedrag niet weet?');
+        return;
+    }
+
     if (!req.isAuthenticated()) {
         res.redirect('/user/login');
         return;
@@ -74,7 +86,7 @@ exports.update = (req, res) => {
             return;
         }
 
-        correction.amount = req.body.amount;
+        correction.amount = amount;
         correction.description = req.body.description;
         correction.corrected_ids = req.body.roommate;
 

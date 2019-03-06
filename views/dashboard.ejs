@@ -74,8 +74,8 @@
                 <div>
                     <label>Personen:</label><br>
                     <% for(let i = 0; i < roommates.length; i++) {%>
-                        <input type="checkbox" name="roommate" value='<%= roommates[i].id %>'>
-                        <%= capitalize(roommates[i].house_name) %><br>
+                        
+                        <%= capitalize(roommates[i].house_name) %>   <input type="checkbox" name="roommate" value='<%= roommates[i].id %>'><br>
                     <% } %>
                 </div>
                 <div>

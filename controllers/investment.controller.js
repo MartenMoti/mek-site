@@ -2,6 +2,12 @@ const Investment = require('../models/investment.model');
 const User = require('../models/user.model');
 
 exports.create_investment = (req, res) => {
+    let amount = req.body.amount.replace(',', '.');
+    if (isNaN(amount)) {
+        res.send('Wat kun je wel? Kun je niet eens een getal intypen? Of ben je zo\'n persoon die het verschil tussen een omschrijving en bedrag niet weet?');
+        return;
+    }
+
     if (!req.isAuthenticated()) {
         res.redirect('/user/login');
         return;
@@ -9,7 +15,7 @@ exports.create_investment = (req, res) => {
 
     let investment = new Investment({
         description: req.body.description,
-        amount: req.body.amount,
+        amount: amount,
         investor_id: req.user
     });
 
@@ -99,6 +105,13 @@ exports.show_single = (req, res) => {
 }
 
 exports.update_investment = (req, res) => {
+    let amount = req.body.amount.replace(',', '.');
+    if (isNaN(amount)) {
+        res.send('Wat kun je wel? Kun je niet eens een getal intypen? Of ben je zo\'n persoon die het verschil tussen een omschrijving en bedrag niet weet?');
+        return;
+    }
+
+
     if (!req.isAuthenticated()) {
         res.redirect('/user/login');
         return;
@@ -111,7 +124,7 @@ exports.update_investment = (req, res) => {
         }
 
         user.description = req.body.description;
-        user.amount = req.body.amount;
+        user.amount = amount;
 
         user.save((err) => {
             if(err) {
