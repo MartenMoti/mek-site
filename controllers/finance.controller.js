@@ -82,8 +82,8 @@ exports.set_financial_information = (req, res, next) => {
         for (let j = 0; j < req.all_housemates.length; j++) {
             let housemate = req.all_housemates[j]
 
-            if (!(housemate.moved_out || housemate.id == investment.investor_id)) {
-                financial_information[housemate.id].invested_on += investment.amount / 12;
+            if (!(housemate.moved_out)) {
+                financial_information[housemate.id].invested_on += investment.amount / 13;
             }
         }
     }
