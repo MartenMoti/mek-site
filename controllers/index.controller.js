@@ -98,3 +98,44 @@ exports.set_corrections = (req, res, next) => {
         next();
     });
 }
+
+exports.archive_investments = (req, res, next) => {
+    if (!req.isAuthenticated()) {
+        res.redirect('/user/login');
+        return;
+    }
+
+    if (!req.userObject.admin) {
+        res.send('Je bent geen lijstbeheerder');
+        return;
+    }
+
+    Investment.update({}, {processed: true}, {multi: true}, (err, num) => {
+        if (err) {
+            console.log(err);
+        }
+
+        console.log("Updated investment entries!");
+    });
+}
+
+exports.archive_corrections = (req, res, next) => {
+    if (!req.isAuthenticated()) {
+        res.redirect('/user/login');
+        return;
+    }
+
+    if (!req.userObject.admin) {
+        res.send('Je bent geen lijstbeheerder');
+        return;
+    }
+
+    Correction.update({}, {processed: true}, {multi: true}, (err, num) => {
+        if (err) {
+            console.log(err);
+        }
+
+        console.log("Updated correction entries!");
+        next();
+    });
+}

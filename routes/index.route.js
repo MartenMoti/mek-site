@@ -7,7 +7,7 @@ const finance_controller = require('../controllers/finance.controller');
 router.get('/', controller.handle_index);
 router.get('/dashboard', 
     controller.get_user, 
-    controller.get_roommates, 
+    controller.get_roommates,
     controller.set_investments,
     investmentController.set_names,
     controller.set_corrections,
@@ -18,6 +18,12 @@ router.get('/dashboard',
     finance_controller.set_financial_information,
 
     controller.handle_dashboard
+);
+
+router.get('/archive', 
+    controller.get_user,
+    controller.archive_corrections,
+    controller.archive_investments
 );
 
 module.exports = router;
