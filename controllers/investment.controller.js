@@ -16,7 +16,8 @@ exports.create_investment = (req, res) => {
     let investment = new Investment({
         description: req.body.description,
         amount: amount,
-        investor_id: req.user
+        investor_id: req.user,
+        active_ids: req.active_housemates
     });
 
     investment.save((err) => {

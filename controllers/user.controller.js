@@ -229,3 +229,13 @@ exports.logout = (req, res) => {
     req.logout();
     res.redirect('/user/login');
 }
+
+exports.set_active_housemates = (req, res, next) => {
+    req.active_housemates = [];
+    User.find({moved_out: false}, (err, users) => {
+        for (let i = 0; i < users.length; i++) {
+            req.active_housemates.push(users[i].id);
+        }
+        next();
+    });
+}

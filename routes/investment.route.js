@@ -1,9 +1,10 @@
-const express = require('express');
+const express = require ('express');
 const router = express.Router();
 const controller = require('../controllers/investment.controller');
+const userController = require('../controllers/user.controller');
 const passport = require('passport');
 
-router.post('/', controller.create_investment);
+router.post('/', userController.set_active_housemates, controller.create_investment);
 router.get('/', controller.set_names, controller.show_all);
 
 router.get('/:id', controller.set_investment, controller.show_single);
