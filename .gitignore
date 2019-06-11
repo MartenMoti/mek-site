@@ -1,3 +1,4 @@
 node_modules
 config/db_auth.json
 .vscode
+scripts
