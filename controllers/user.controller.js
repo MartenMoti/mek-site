@@ -11,6 +11,11 @@ exports.register_post = (req, res) => {
         return;
     }
     
+    if (!req.current_user_is_admin) {
+        res.send('Je hebt geen recht om mensen toe te voegen.');
+        return;
+    }
+
     let user = new User({
         real_name: req.body.real_name,
         house_name: req.body.real_name,
@@ -81,6 +86,11 @@ exports.set_house_name = (req, res) => {
         return;
     }
 
+    if (!req.current_user_is_admin) {
+        res.send('Je moet lijstbeheerder zijn om dit te mogen doen.');
+        return;
+    }
+
     User.findById(req.params.id, (err, user) => {
         if (err) {
             console.log(err);
@@ -103,6 +113,11 @@ exports.set_house_name = (req, res) => {
 exports.set_admin = (req, res) => {
     if (!req.isAuthenticated()) {
         res.redirect('/user/login');
+        return;
+    }
+
+    if (!req.current_user_is_admin) {
+        res.send('Je moet lijstbeheerder zijn om dit te mogen doen.');
         return;
     }
 
@@ -131,6 +146,11 @@ exports.set_not_admin = (req, res) => {
         return;
     }
 
+    if (!req.current_user_is_admin) {
+        res.send('Je moet lijstbeheerder zijn om dit te mogen doen.');
+        return;
+    }
+
     User.findById(req.params.id, (err, user) => {
         if (err) {
             console.log(err);
@@ -156,6 +176,11 @@ exports.set_moved_out = (req, res) => {
         return;
     }
 
+    if (!req.current_user_is_admin) {
+        res.send('Je moet lijstbeheerder zijn om dit te mogen doen.');
+        return;
+    }
+
     User.findById(req.params.id, (err, user) => {
         if (err) {
             console.log(err);
@@ -178,6 +203,11 @@ exports.set_moved_out = (req, res) => {
 exports.set_not_moved_out = (req, res) => {
     if (!req.isAuthenticated()) {
         res.redirect('/user/login');
+        return;
+    }
+
+    if (!req.current_user_is_admin) {
+        res.send('Je moet lijstbeheerder zijn om dit te mogen doen.');
         return;
     }
 
@@ -253,7 +283,6 @@ exports.set_current_user_is_admin = (req, res, next) => {
         }
 
         req.current_user_is_admin = user.admin;
-
         next();
     });
 }
