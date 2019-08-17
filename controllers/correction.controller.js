@@ -1,5 +1,23 @@
 const Correction = require('../models/correction.model');
 
+exports.set_correction = (req, res, next) => {
+    if (!req.isAuthenticated()) {
+        res.redirect('/login');
+        return;
+    }
+
+    Correction.findById(req.params.id, (err, correction) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+
+        req.correction = correction; 
+
+        next();
+    });
+}
+
 exports.create_correction = (req, res) => {
     let amount = req.body.amount.replace(',', '.');
     if (isNaN(amount)) {
@@ -86,18 +104,22 @@ exports.update = (req, res) => {
             return;
         }
 
-        correction.amount = amount;
-        correction.description = req.body.description;
-        correction.corrected_ids = req.body.roommate;
+        if (req.current_user_is_admin || req.user === correction.corrector_id) {
+            correction.amount = amount;
+            correction.description = req.body.description;
+            correction.corrected_ids = req.body.roommate;
 
-        correction.save((err) => {
-            if (err) {
-                console.log(err);
-                return;
-            }
+            correction.save((err) => {
+                if (err) {
+                    console.log(err);
+                    return;
+                }
 
-            res.redirect('/correction/');
-        });
+                res.redirect('/correction/');
+            });
+        } else {
+            res.send('Je kan geen correcties van andere mensen aanpassen.');
+        }
     });
 }
 
@@ -107,12 +129,16 @@ exports.delete = (req, res) => {
         return;
     }
 
-    Correction.findByIdAndDelete(req.params.id, (err) => {
-        if (err) {
-            console.log(err);
-            return;
-        }
+    if (req.current_user_is_admin || req.correction.corrector_id === req.user) {
+        Correction.findByIdAndDelete(req.params.id, (err) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
 
-        res.redirect('/correction/');
-    });    
+            res.redirect('/correction/');
+        });    
+    } else {
+        res.send('Je mag geen correcties van andere mensen verwijderen.');
+    }
 }

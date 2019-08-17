@@ -118,23 +118,30 @@ exports.update_investment = (req, res) => {
         return;
     }
 
-    Investment.findById(req.params.id, (err, user) => {
+    Investment.findById(req.params.id, (err, investment) => {
         if (err) {
             console.log(err);
             return;
         }
 
-        user.description = req.body.description;
-        user.amount = amount;
+        // Check if the user updating the investment is the same user who created it.
+        // Check if the current user is an admin.
+        // If neither, they do not have permission to update the investment. 
+        if (!(req.current_user_is_admin || investment.investor_id === req.user)) {
+            res.send('Je mag geen investeringen van anderen veranderen.');
+        } else {
+            investment.description = req.body.description;
+            investment.amount = amount;
 
-        user.save((err) => {
-            if(err) {
-                console.log(err);
-                return;
-            }
-    
-            res.redirect('/investment');
-        });
+            investment.save((err) => {
+                if(err) {
+                    console.log(err);
+                    return;
+                }
+        
+                res.redirect('/investment');
+            });
+        }
     });
 }
 
@@ -144,12 +151,19 @@ exports.delete_investment = (req, res) => {
         return;
     }
 
-    Investment.findByIdAndDelete(req.params.id, (err) => {
-        if (err) {
-            console.log(err);
-            return;
-        }
-
-        res.redirect('/investment');
-    });
+    // Check if the user deleting the investment is the same user who created it.
+    // Check if the current user is an admin.
+    // If neither, they do not have permission to delete the investment.
+    if ((req.investment.investor_id === req.user || req.current_user_is_admin)) {
+        Investment.findByIdAndDelete(req.params.id, (err) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+    
+            res.redirect('/investment');
+        });    
+    } else {
+        res.send('Je kan geen investeringen van andere mensen verwijderen.');
+    }
 }
