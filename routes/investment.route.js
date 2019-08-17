@@ -8,7 +8,7 @@ router.post('/', userController.set_active_housemates, controller.create_investm
 router.get('/', controller.set_names, controller.show_all);
 
 router.get('/:id', controller.set_investment, controller.show_single);
-router.post('/:id/update', controller.update_investment);
-router.post('/:id/delete', controller.delete_investment);
+router.post('/:id/update', userController.set_current_user_is_admin ,controller.update_investment);
+router.post('/:id/delete', userController.set_current_user_is_admin, controller.set_investment, controller.delete_investment);
 
 module.exports = router;

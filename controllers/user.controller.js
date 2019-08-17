@@ -239,3 +239,21 @@ exports.set_active_housemates = (req, res, next) => {
         next();
     });
 }
+
+exports.set_current_user_is_admin = (req, res, next) => {
+    if (!req.isAuthenticated()) {
+        res.redirect('/login');
+        return;
+    }
+
+    User.findById(req.user, (err, user) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+
+        req.current_user_is_admin = user.admin;
+
+        next();
+    });
+}
