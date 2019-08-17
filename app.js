@@ -72,6 +72,7 @@ const auth_conf = require('./config/db_auth.json');
 
 // Set up mongoose connection
 let dev_db_url = 'mongodb://' + auth_conf.username + ':' + auth_conf.password + '@ds127545.mlab.com:27545/mek';
+
 let mongoDB = process.env.MONGODB_URI || dev_db_url;
 mongoose.connect(mongoDB, {
   useNewUrlParser: true

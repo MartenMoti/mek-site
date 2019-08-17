@@ -87,39 +87,39 @@
     </div>
 
     <div class="row">
-            <div class="col-6">
-                <table class="table">
-                    <th>Datum</th>
-                    <th>Investeerder</th>
-                    <th>Bedrag</th>
-                    <th>Beschrijving</th>
-                    <% for(let i = 0; i < investments.length; i++) { %>
-                        <tr class="clickable-row" data-href="/investment/<%=investments[i].id%>">
-                            <td><%= investments[i].date.getDate() %>/<%= investments[i].date.getMonth() %>/<%= investments[i].date.getFullYear() %></td>
-                            <td><%= capitalize(names[investments[i].investor_id]) %></td>
-                            <td><%= investments[i].amount %></td>
-                            <td><%= investments[i].description %></td>
-                        </tr>
-                    <% } %>
-                </table>
-            </div>
-            <div class="col-6">
-                <table class="table">
+        <div class="col-6">
+            <table class="table">
                 <th>Datum</th>
-                <th>Corrigeerder</th>
-                <th>Bedrag per persoon</th>
+                <th>Investeerder</th>
+                <th>Bedrag</th>
                 <th>Beschrijving</th>
-                <% for(let i = 0; i < corrections.length; i++) { %>
-                    <tr class="clickable-row" data-href="/correction/<%=corrections[i].id%>">
-                        <td><%= corrections[i].date.getDate() %>/<%= corrections[i].date.getMonth() %>/<%= corrections[i].date.getFullYear() %></td>
-                        <td><%= capitalize(names[corrections[i].corrector_id]) %></td>
-                        <td><%= corrections[i].amount / corrections[i].corrected_ids.length %></td>
-                        <td><%= corrections[i].description %></td>
+                <% for(let i = 0; i < investments.length; i++) { %>
+                    <tr class="clickable-row" data-href="/investment/<%=investments[i].id%>">
+                        <td><%= investments[i].date.getDate() %>/<%= investments[i].date.getMonth() %>/<%= investments[i].date.getFullYear() %></td>
+                        <td><%= capitalize(names[investments[i].investor_id]) %></td>
+                        <td><%= investments[i].amount %></td>
+                        <td><%= investments[i].description %></td>
                     </tr>
                 <% } %>
-                </table>
-            </div>
+            </table>
         </div>
+        <div class="col-6">
+            <table class="table">
+            <th>Datum</th>
+            <th>Corrigeerder</th>
+            <th>Bedrag per persoon</th>
+            <th>Beschrijving</th>
+            <% for(let i = 0; i < corrections.length; i++) { %>
+                <tr class="clickable-row" data-href="/correction/<%=corrections[i].id%>">
+                    <td><%= corrections[i].date.getDate() %>/<%= corrections[i].date.getMonth() %>/<%= corrections[i].date.getFullYear() %></td>
+                    <td><%= capitalize(names[corrections[i].corrector_id]) %></td>
+                    <td><%= corrections[i].amount / corrections[i].corrected_ids.length %></td>
+                    <td><%= corrections[i].description %></td>
+                </tr>
+            <% } %>
+            </table>
+        </div>
+    </div>
 </body>
 
 </html>

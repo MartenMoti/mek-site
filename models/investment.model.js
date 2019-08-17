@@ -6,7 +6,8 @@ let InvestmentSchema = new Schema({
     amount: {type: Number, required: true},
     investor_id: {type: String, required: true},
     processed: {type: Boolean, default: false},
-    date: {type: Date, default: Date.now}
+    date: {type: Date, default: Date.now},
+    active_ids: [{type: String, required: true}]
 });
 
 module.exports = mongoose.model('Investment', InvestmentSchema);
