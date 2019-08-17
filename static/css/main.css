@@ -25,3 +25,11 @@
 .color-green {
     color: green;
 }
+
+tr.archived td {
+    text-decoration: line-through;
+}
+
+tr.archived td.icons {
+    text-decoration: none;
+}

@@ -3,21 +3,143 @@
     <head>
         <title>Investeringen</title>
         <% include ../partials/head %>
+        <script src='/js/investment-popup.js'></script>
     </head>
     <body>
         <% include ../partials/nav %>
+        <%
+            function padNumber(number) {
+                let numberString = number.toString();
+                if (numberString.length == 1) {
+                    return '0' + numberString;
+                } else {
+                    return numberString;
+                }
+            }
 
-        <table class="table">
-        <% for(let i = 0; i < investments.length; i++) { %>        
-            <tr>
-                <td><a href='/investment/<%=investments[i].id%>'>Link</a>
-                <td><%=names[investments[i].investor_id]%></td>
-                <td><%=investments[i].description%></td>
-                <td><%=investments[i].amount%></td>
-                <td><%=investments[i].processed%></td>
-		<td><%=investments[i].date%></td>
-            <tr>
-        <% } %>
-        <table>
+            function formatDate(date) {
+                let result = '';
+                result += padNumber(date.getDate()) + '/';
+                result += padNumber((date.getMonth() + 1)) + '/';
+                result += date.getFullYear()
+                return result;
+            }
+
+            function formatEuro(amount) {
+                let resultString = amount.toString();
+                if (!resultString.includes('.')) {
+                    resultString += ".00";
+                }
+                return '€ ' + resultString;
+            }
+
+            function capitalize(string) {
+                if (string == 'marie-claire') {
+                    return 'Marie-Claire';
+                } else {
+                    return string.charAt(0).toUpperCase() + string.slice(1);
+                }
+                // CREDITS TO GIJS
+                // let hyphenIndex = string.indexOf('-');
+                // if (hyphenIndex != -1) {
+                //     let lowerCase = string.charAt(hyphenIndex + 1);
+                //     string = string.substr(0, hyphenIndex + 1) + lowerCase.toUpperCase() + string.substr(hyphenIndex + 2, string.length);
+                // }
+                // return string.charAt(0).toUpperCase() + string.slice(1);
+            } 
+        %>
+
+        <!--
+        TODO: implement filter
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="show-archived-checkbox">
+                    <label class="custom-control-label" for="customCheck1">Toon Gearchiveerde Investeringen</label>
+                </div>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+        -->
+
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <table class="table">
+                <% for(let i = 0; i < investments.length; i++) { %>
+                    <% if (investments[i].processed) { %>
+                        <tr class="archived">
+                    <% } else { %>
+                        <tr>
+                    <% } %>
+                        <td><%= capitalize(names[investments[i].investor_id]) %></td>
+                        <td style="max-width: 300px"><%=investments[i].description%></td>
+                        <td><%= formatEuro(investments[i].amount) %></td>
+                        <td><%= formatDate(investments[i].date) %></td>
+                        <td class="icons">
+                            <button class='btn btn-secondary' onclick='openEditPopup(`<%=investments[i].id%>`, `<%=investments[i].description%>`, `<%=investments[i].amount%>`)'>
+                                <i class='fa fa-edit'></i>
+                            </button>
+
+                            <button class='btn btn-danger' onclick='openDeletePopup(`<%=investments[i].id%>`, `<%=investments[i].description%>`)'>
+                                <i class='fa fa-trash'></i>
+                            </button>
+                        </td>
+                    <tr>
+                <% } %>
+                <table>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+
+        <div class="modal fade" id="deletionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteTitle">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" id='deleteButton'>Verwijder Investering</button>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateTitle">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class='modal-body'>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-default">Bedrag</span>
+                        </div>
+                        <input id="update-amount" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-default">Beschrijving</span>
+                        </div>
+                        <input id="update-description" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id='updateButton'>Update Investering</button>
+                </div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
