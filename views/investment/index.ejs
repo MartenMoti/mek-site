@@ -66,29 +66,40 @@
         <div class="row">
             <div class="col-md-3"></div>
             <div class="col-md-6">
-                <table class="table">
-                <% for(let i = 0; i < investments.length; i++) { %>
-                    <% if (investments[i].processed) { %>
-                        <tr class="archived">
-                    <% } else { %>
+                <table class="table table-striped">
+                    <thead>
                         <tr>
-                    <% } %>
-                        <td><%= capitalize(names[investments[i].investor_id]) %></td>
-                        <td style="max-width: 300px"><%=investments[i].description%></td>
-                        <td><%= formatEuro(investments[i].amount) %></td>
-                        <td><%= formatDate(investments[i].date) %></td>
-                        <td class="icons">
-                            <button class='btn btn-secondary' onclick='openEditPopup(`<%=investments[i].id%>`, `<%=investments[i].description%>`, `<%=investments[i].amount%>`)'>
-                                <i class='fa fa-edit'></i>
-                            </button>
+                            <th>Investeerder</th>
+                            <th>Beschrijving</th>
+                            <th>Hoeveelheid</th>
+                            <th>Datum</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <% for(let i = 0; i < investments.length; i++) { %>
+                        <% if (investments[i].processed) { %>
+                            <tr class="archived">
+                        <% } else { %>
+                            <tr>
+                        <% } %>
+                            <td><%= capitalize(names[investments[i].investor_id]) %></td>
+                            <td style="max-width: 300px"><%=investments[i].description%></td>
+                            <td><%= formatEuro(investments[i].amount) %></td>
+                            <td><%= formatDate(investments[i].date) %></td>
+                            <td class="icons">
+                                <button class='btn btn-secondary' onclick='openEditPopup(`<%=investments[i].id%>`, `<%=investments[i].description%>`, `<%=investments[i].amount%>`)'>
+                                    <i class='fa fa-edit'></i>
+                                </button>
 
-                            <button class='btn btn-danger' onclick='openDeletePopup(`<%=investments[i].id%>`, `<%=investments[i].description%>`)'>
-                                <i class='fa fa-trash'></i>
-                            </button>
-                        </td>
-                    <tr>
-                <% } %>
-                <table>
+                                <button class='btn btn-danger' onclick='openDeletePopup(`<%=investments[i].id%>`, `<%=investments[i].description%>`)'>
+                                    <i class='fa fa-trash'></i>
+                                </button>
+                            </td>
+                        </tr>
+                    <% } %>
+                    </tbody>
+                </table>
             </div>
             <div class="col-md-3"></div>
         </div>
