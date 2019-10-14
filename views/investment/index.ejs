@@ -4,6 +4,8 @@
         <title>Investeringen</title>
         <% include ../partials/head %>
         <script src='/js/investment-popup.js'></script>
+        <script src='/js/archive-toggle.js'></script>
+        <script src='/js/filter-investments.js'></script>
     </head>
     <body>
         <% include ../partials/nav %>
@@ -39,34 +41,51 @@
                 } else {
                     return string.charAt(0).toUpperCase() + string.slice(1);
                 }
-                // CREDITS TO GIJS
-                // let hyphenIndex = string.indexOf('-');
-                // if (hyphenIndex != -1) {
-                //     let lowerCase = string.charAt(hyphenIndex + 1);
-                //     string = string.substr(0, hyphenIndex + 1) + lowerCase.toUpperCase() + string.substr(hyphenIndex + 2, string.length);
-                // }
-                // return string.charAt(0).toUpperCase() + string.slice(1);
             } 
         %>
 
-        <!--
-        TODO: implement filter
+        
+        <!-- TODO: implement filter -->
         <div class="row">
             <div class="col-md-4"></div>
             <div class="col-md-4">
                 <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="show-archived-checkbox">
-                    <label class="custom-control-label" for="customCheck1">Toon Gearchiveerde Investeringen</label>
+                    <input type="checkbox" class="custom-control-input" id="archive-checkbox" onclick="showArchived()">
+                    <label class="custom-control-label" for="archive-checkbox">Toon Gearchiveerde Investeringen</label>
                 </div>
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Naam</span>
+                    </div>
+                    <input id="name-search" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                </div>
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Beschrijving</span>
+                    </div>
+                    <input id="description-search" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                </div>
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Minimaal Bedrag</span>
+                    </div>
+                    <input id="amount-search" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                </div>
+
+                <button class="btn btn-primary" style='width: 100%' onclick="filterInvestments()">Filter</button>
             </div>
+
+            
             <div class="col-md-4"></div>
         </div>
-        -->
 
         <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-6">
-                <table class="table table-striped">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <table class="table">
                     <thead>
                         <tr>
                             <th>Investeerder</th>
@@ -79,7 +98,7 @@
                     <tbody>
                     <% for(let i = 0; i < investments.length; i++) { %>
                         <% if (investments[i].processed) { %>
-                            <tr class="archived">
+                            <tr class="archived" style="display: none;">
                         <% } else { %>
                             <tr>
                         <% } %>
@@ -101,7 +120,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="col-md-3"></div>
+            <div class="col-md-2"></div>
         </div>
 
         <div class="modal fade" id="deletionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
