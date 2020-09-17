@@ -19,9 +19,6 @@ function filterInvestments() {
         let name = trs[i].childNodes[1].innerText;
         let description = trs[i].childNodes[3].innerText;
         let amount = parseFloat(trs[i].childNodes[5].innerText.substr(1));
-        console.log(name);
-        console.log(description);
-        console.log(amount);
 
         if (!(
             textMatch(nameValue, name) &&
