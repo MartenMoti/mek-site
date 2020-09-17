@@ -11,7 +11,7 @@
         <table class='table'>
             <% for (let i = 0; i < corrections.length; i++) { %>
                 <tr class='clickable-row' data-href='/correction/<%=corrections[i].id%>'>
-                    <td><%= corrections[i].date.getDate() %>/<%= corrections[i].date.getMonth() %>/<%= corrections[i].date.getFullYear() %></td>
+                    <td><%= corrections[i].date.getDate() %>/<%= corrections[i].date.getMonth() + 1 %>/<%= corrections[i].date.getFullYear() %></td>
                     <td><%= id_to_name[corrections[i].corrector_id] %>
                     <td><%= corrections[i].amount %></td>
                     <td><%= corrections[i].description %></td>

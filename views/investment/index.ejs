@@ -83,8 +83,7 @@
         </div>
 
         <div class="row">
-            <div class="col-md-2"></div>
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <table class="table">
                     <thead>
                         <tr>
@@ -106,7 +105,7 @@
                             <td style="max-width: 300px"><%=investments[i].description%></td>
                             <td><%= formatEuro(investments[i].amount) %></td>
                             <td><%= formatDate(investments[i].date) %></td>
-                            <td class="icons">
+                            <td class="icons" style="text-align: right;">
                                 <button class='btn btn-secondary' onclick='openEditPopup(`<%=investments[i].id%>`, `<%=investments[i].description%>`, `<%=investments[i].amount%>`)'>
                                     <i class='fa fa-edit'></i>
                                 </button>
@@ -120,7 +119,6 @@
                     </tbody>
                 </table>
             </div>
-            <div class="col-md-2"></div>
         </div>
 
         <div class="modal fade" id="deletionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
